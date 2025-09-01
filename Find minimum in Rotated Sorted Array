@@ -1,0 +1,32 @@
+Algorithm :
+If left half is sorted,the lowest element will be on right or the min of the sorted left,so pick up the minimum from left half and eliminate left half .
+If right half is sorted , the element will be on left or the first element of the right half , so pick up the minimum from right half and eliminate right half.
+Use a variable int res = INT_MAX to track the minimum;
+
+
+class Solution {
+public:
+    int findMin(vector<int>& nums) 
+    {
+       int res = INT_MAX;
+       int left = 0;
+       int right = nums.size()-1;
+        while(left<=right)
+        {
+            int mid = left+(right-left)/2;
+            if(nums[left]<nums[mid])
+            {
+                res = min(res,nums[left]);
+                left = mid+1;
+            }
+            if(nums[right]>nums[mid])
+            {
+                res = min(res,nums[mid]);
+                right = mid-1;
+            }
+        }
+        return res;
+    }
+    
+};
+
