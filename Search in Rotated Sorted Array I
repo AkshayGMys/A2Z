@@ -1,0 +1,68 @@
+Could not Solve , approach was right but code was utter wrong
+ int search(vector<int>& nums, int target) 
+    {
+        int left = 0;
+        int right = nums.size()-1;
+        while(left<=right)
+        {
+            int mid = left+(right -left)/2; 
+            if(nums[mid]>nums[0])
+                left = mid +1;    
+            else
+                 right = mid; 
+        }
+        int indexRotated = left;
+        return max(binarySearch(nums,target,0,indexRotated-1),binarySearch(nums,target,indexRotated,nums.size()-1));
+
+    }
+This approach does not work on a sorted array as nums[mid] always grater than nums[0] there.Hence comparing with teh first element to find the smallest element to the right of the first element does not solve this question.
+
+
+Using nums[right] is always safe, since the rightmost element "anchors" the sorted portion of the array after rotation.
+
+BUUUUUUUUUUUUUUUUUUUUUUUT
+
+Optimal solution is using single binary search and ensuring which side of the mid is sorted and checking whether the element is in sorted half and then eliminating the sorted half if the element is not there , or searching in that sorted half if we know the element must be in that half;
+class Solution {
+public:
+    int search(vector<int>& nums, int target) 
+    {
+        int left = 0;
+        int right = nums.size()-1;
+        while(left<=right)
+        {
+            int mid = left +(right-left)/2;
+            if(nums[left]<=nums[mid] )
+            {
+                if(target<=nums[mid] && target>=nums[left])
+                {
+                    if(target== nums[mid])
+                        return mid;
+                    if(target<nums[mid])
+                        right = mid-1;
+                    else
+                        left= mid+1;
+                    continue;
+                }
+                left = mid+1;
+            }
+            else
+            {
+                if( target>=nums[mid] && target<=nums[right])
+                {
+                    if(target== nums[mid])
+                        return mid;
+                    if(target<nums[mid])
+                        right = mid-1;
+                    else
+                        left= mid+1;
+                    continue;
+                }
+                right = mid-1;    
+            }
+        }  
+        return -1;   
+    }
+};
+
+Solved by me
