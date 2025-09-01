@@ -1,0 +1,38 @@
+class Solution {
+  public:
+    int findKRotation(vector<int> &arr) 
+    {
+        int left = 0;
+        int right = arr.size()-1;
+        if(arr[0] <= arr[right])
+            return 0;
+        int minimum = INT_MAX;
+        int result = 0;
+        while(left<=right)
+        {
+            int mid = left+(right-left)/2;
+            if(arr[left]<=arr[mid])
+            {
+                minimum = min(minimum,arr[left]);
+                if(minimum == arr[left])
+                    result = left;
+                left = mid+1;
+                
+            }
+            else
+            {
+                minimum = min(minimum,arr[mid]);
+                if(minimum == arr[mid])
+                    result = mid;
+                right = mid-1;
+                
+            }
+            
+        }
+        return result;
+        
+    }
+};
+
+
+Easily so
