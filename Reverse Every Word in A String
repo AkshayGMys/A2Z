@@ -1,0 +1,31 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        string res = "";
+        int i=s.size()-1,j=s.size()-1;
+        while(i>=0 && s[i]==' ')
+       {
+            i--;
+            j--;
+       }
+        while(j>=0 && i>=0)
+        {
+            if(s[i]!=' ')
+            {
+                while( j>=0 && s[j]!=' ')
+                    j--;
+                res=res+s.substr(j+1,i-j);
+                i=j;
+                res = res + " ";
+            }
+            else
+            {
+                i--;
+                j--;
+            }
+
+        }
+        res.erase(res.size()-1,1);
+        return res;
+    }
+};
