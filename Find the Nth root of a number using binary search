@@ -1,0 +1,25 @@
+Pretty easy implementation .Did it in an attempt
+
+
+class Solution {
+  public:
+    int nthRoot(int n, int m) 
+    {
+        int left = -m;
+        int right = m;
+        int mid;
+        while(left <= right)
+        {
+            mid = left +(right - left) /2;
+            int num = pow(mid,n);
+            if(num == m)
+                return mid;
+            if(num > m)
+                right = mid-1;
+            else
+                left = mid+1;
+        }
+        return -1;
+        
+    }
+};
