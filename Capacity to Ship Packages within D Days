@@ -1,0 +1,43 @@
+
+//THE DAYS PART RETURNING ,I WAS WRONG...
+
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) 
+    {
+        int left = *max_element(weights.begin(),weights.end());
+        int right = accumulate(weights.begin(),weights.end(),0);
+        int mid;
+        while(left<=right)
+        {
+            mid = left + (right-left)/2;
+            int res = validate(weights,days,mid);
+            if(res < 0)
+            {
+                left = mid+1;
+            }
+            else
+            {
+                right = mid-1;
+            }
+        }
+        return left;
+    }
+    int validate(vector<int> weights, int days,int maxWeight)
+    {
+        int w = maxWeight;
+        for(int i=0;i<weights.size();i++)
+        {
+            if(w>=weights[i])
+                w-=weights[i];
+            else
+            {
+                days--;
+                w = maxWeight - weights[i];
+            }
+            
+        }
+        cout<<"THe days for " << maxWeight <<" is "<<days<<endl;
+        return days-1;
+    }
+};
