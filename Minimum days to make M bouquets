@@ -1,0 +1,45 @@
+if(numOfFlowers < 1LL * numOfBouquet * flowersNeeded)
+            return -1;
+Got integet overflow here ,use 1LL to convert the hwhole to long long
+
+
+
+class Solution {
+public:
+    int minDays(vector<int>& bloomDay, int numOfBouquet, int flowersNeeded) 
+    {
+        long long numOfFlowers = bloomDay.size();
+        if(numOfFlowers < 1LL * numOfBouquet * flowersNeeded)
+            return -1;
+        int left = 0;
+        int right = *max_element(bloomDay.begin(),bloomDay.end());
+        while(left<=right)
+        {
+            int mid = left +(right -left)/2;
+            int bouquetMade = isEnough(bloomDay,numOfBouquet,flowersNeeded,mid);
+            if(bouquetMade < numOfBouquet)
+                left = mid +1;
+            else
+                right = mid-1;
+        }
+            return left;
+    }
+    int isEnough(vector<int> bloomDay, int numOfBouquet, int flowersNeeded,int day)
+    {
+        int bouquetMade = 0;
+        int flowersCollected = 0;
+        for(int i=0;i<bloomDay.size();i++)
+        {
+            if(bloomDay[i]<=day)    // HAD WRITTEN if(bloomDay[i]<day)
+                flowersCollected++;
+            else
+                flowersCollected = 0;
+            if(flowersCollected == flowersNeeded)
+            {
+                bouquetMade++;
+                flowersCollected = 0;
+            }
+        }
+        return bouquetMade;
+    }
+};
