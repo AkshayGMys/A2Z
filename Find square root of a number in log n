@@ -1,3 +1,5 @@
+//It was easy implementation .Did it in the first try.
+
 class Solution {
   public:
     int floorSqrt(int n) 
