@@ -1,0 +1,70 @@
+APPROACH
+Brute force brain thinking is required 
+solved without using any in built functions 
+Took some time 
+
+LEARNINGS
+1)Proper way to convert a string to an integer making sure the result will not overflow.
+for (int i = 0; i < size; i++) 
+        {
+            int digit = res[i] - '0';
+            if (resInt > (LLONG_MAX - digit) / 10) 
+            {  
+                return (sign == '-') ? INT_MIN : INT_MAX;
+            }
+            resInt = resInt * 10 + digit;
+        }
+
+2)Usage of isDigit function to check whether the given character is a string.
+ while(i < s.size() && isdigit(s[i]))
+        {
+            res+=s[i];
+            i++;
+        }
+
+
+CODE:
+class Solution {
+public:
+    int myAtoi(string s) 
+    {
+        char sign;
+        string res = "";
+        int i = 0;
+        while(s[i] == ' ')
+            i++;
+        if(s[i] == '-' || s[i]== '+')
+        {
+           sign = s[i];
+            i++;
+        }
+        while(i < s.size() && isdigit(s[i]))
+        {
+            res+=s[i];
+            i++;
+        }
+        //The string in res is now a number, I will process it below
+        i = 0;
+        long long resInt = 0;
+        int size = res.size();
+        for (int i = 0; i < size; i++) 
+        {
+            int digit = res[i] - '0';
+            if (resInt > (LLONG_MAX - digit) / 10) 
+            {  
+                return (sign == '-') ? INT_MIN : INT_MAX;
+            }
+            resInt = resInt * 10 + digit;
+        }
+
+        if(sign == '-')
+            resInt = resInt * (-1);
+
+        if(resInt > INT_MAX)
+            resInt = INT_MAX;
+        if(resInt < INT_MIN)
+            resInt = INT_MIN;
+        return resInt;
+    }
+
+};
