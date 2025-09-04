@@ -1,0 +1,32 @@
+Approach
+1.Store characters that appear in a vector of pairs {count, char}.
+
+2.Sort that vector in descending order of frequency.
+
+3.Build the final string by appending each character count times.
+
+ solution nodu artha aglilla, SO used chatgpt to solve it , please solve it again.
+LEARNT THE USE OF LAMBDA FUNCTIONS IN CPP
+
+
+class Solution {
+public:
+    string frequencySort(string s) 
+    {
+        unordered_map< char , int > freq;
+        for(auto c: s)
+            freq[c]++;
+        vector<pair<char,int>> v(freq.begin(),freq.end());
+        sort(v.begin(),v.end(),[](auto&a,auto&b){ return a.second>b.second;});
+        string result="";
+        for(auto a: v)
+        {
+            for(int i=1;i<=a.second;i++)
+            {
+                result+=a.first;
+            }
+                
+        }
+        return result;
+    }
+};
