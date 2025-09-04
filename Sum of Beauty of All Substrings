@@ -1,0 +1,45 @@
+//PRACTICE AGAIN
+TOOK some help from gpt , idea was mine, did not know the implementation;
+
+
+
+class Solution {
+public:
+    int beautySum(string s) 
+    {
+        int sum = 0;
+        int stringLength = s.size();
+       vector<vector<int>> vOfFrequency(stringLength, vector<int>(26, 0));
+
+        vector<int> tempV(26);
+        tempV[s[0]-'a'] = 1;
+        vOfFrequency[0] = tempV;
+
+
+        for(int i=1;i<stringLength;i++)
+        {
+            vOfFrequency[i] = vOfFrequency[i-1];
+            vOfFrequency[i][s[i]-'a']+=1;
+        }
+        int result=0;
+        for(int i=0;i<s.size();i++)
+        {
+            for(int j=i+1;j<s.size();j++)
+            {
+                vector<int> freq(26, 0);
+                for(int k = 0; k < 26; k++) {
+                    freq[k] = vOfFrequency[j][k] - (i > 0 ? vOfFrequency[i-1][k] : 0);
+                }
+                int max = *max_element(freq.begin(),freq.end());
+                int min = INT_MAX;
+                for(int i=0;i<freq.size();i++)
+                {
+                    if(freq[i]>0 && freq[i]<min)
+                        min = freq[i];
+                }
+                 sum += max-min;
+            }
+        }
+    return sum;
+    }
+};
