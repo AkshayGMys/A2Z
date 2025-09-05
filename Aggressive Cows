@@ -1,0 +1,50 @@
+Good question , hard to think
+Got a brute force solution which picks all k possibilities after sorting the stalls
+
+
+Finally did it in 50 goddamm minutes .
+BInary search on answers it is.
+The twist is we have to sort the array ourselves
+
+
+class Solution {
+  public:
+    int aggressiveCows(vector<int> &stalls, int k) 
+    {
+        sort(stalls.begin(),stalls.end());
+        int left = 1;
+        int right = stalls[stalls.size()-1] - stalls[0];
+        int mid;
+        while(left<=right)
+        {
+            mid = left +(right - left)/2;
+            if(isPossible(stalls, mid , k) == true)
+                left = mid+1;
+            else
+                right = mid-1;
+        }
+        return right;
+    }
+    bool isPossible(vector<int>&stalls , int n,int k)
+    {
+        int i = 0;
+        int j = 1;
+        --k;// As I am keeping a cow in index 0 only
+        while(j<stalls.size())
+        {
+            if(stalls[j]-stalls[i]>=n)
+            {
+                k--;
+                i =j;
+                ++j;
+            }
+            else
+                j++;
+        }
+        if(k<=0)
+            return true;
+        else
+            return false;
+    }
+    
+};
