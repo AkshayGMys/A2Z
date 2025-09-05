@@ -1,0 +1,32 @@
+THis is similar to the previous patterns , just binary search to see whether each number is there .
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) 
+    {
+        int i = 1;
+        while(k!=0)
+        {
+            if(isThere(arr,i) == false)
+                k--;
+            i++;
+        }
+        return i-1;
+    }
+    bool isThere(vector<int>& arr,int n)
+    {
+        int left = 0;
+        int right = arr.size()-1;
+        int mid;
+        while(left<=right)
+        {
+            mid = left + (right-left)/2;
+            if(arr[mid] == n)
+                return true;
+            else if(arr[mid]>n)
+                right = mid-1; 
+            else
+                 left = mid+1;
+        }
+        return false;
+    }
+};
