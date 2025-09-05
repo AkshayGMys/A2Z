@@ -1,0 +1,44 @@
+Good problem , not able to think the solution directly .
+
+VERY IMP POINTS
+1)Binary search on Double needs precision specifier or it will take a lot of time ,learn to use precision.
+2)VAlidate function i wrote was trash
+
+
+//THE BELOW THINGY IS SOLUTION
+class Solution {
+  public:
+    double minMaxDist(vector<int> &arr, int k) 
+    {
+        double left = 0;
+        double right = arr[arr.size()-1] - arr[0];
+        double result = 0 ;
+        double eps = 1e-6;
+        while(eps <= right - left)
+        {
+            double mid = left + (right - left)/2;
+            if(validate(arr , k , mid) == true)
+            {
+                right = mid;
+                result = mid;
+            } 
+            else
+                left = mid;
+        }
+        return result ;
+    }
+    bool validate(vector<int>& arr ,int k , double maxDistance)
+    {
+        int stationsUsed = 0;
+        for(int i=0;i<arr.size()-1;i++)
+        {
+            if(arr[i+1] - arr[i] > maxDistance)
+            {
+                stationsUsed += (int)((arr[i+1] - arr[i])/ maxDistance);
+                if(stationsUsed > k)
+                    return false;
+            }
+        }
+        return true;
+    }
+};
