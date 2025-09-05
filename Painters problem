@@ -1,0 +1,43 @@
+class Solution {
+  public:
+    int minTime(vector<int>& arr, int numOfPainters) 
+    {
+        int left = *max_element(arr.begin(),arr.end());
+        int right = accumulate(arr.begin(),arr.end(),0);
+        int result = -1;
+        while(left<=right)
+        {
+            int mid = left+ (right - left)/2;
+            if(validate(arr,numOfPainters,mid) == true)
+            {
+                result = mid;
+                right = mid -1;
+            }
+
+            else
+                left = mid + 1;
+        }
+        return result;
+        
+    }
+    bool validate(vector<int>& arr, int numOfPainters,int maxLen)
+    {
+        int requiredPainters = 1;
+        int currLen = 0;
+        for(int i=0;i<arr.size();i++)
+        {
+            if(currLen + arr[i] <= maxLen)
+            {
+                currLen+=arr[i];
+            }
+            else
+            {
+                requiredPainters++;
+                currLen = arr[i];
+                if(requiredPainters > numOfPainters)
+                    return false;
+            }
+        }
+        return true;
+    }
+};
