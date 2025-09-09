@@ -1,0 +1,28 @@
+SIMPLE USAGE OF SET
+FORGOT THE FIND FUNCTION.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) 
+    {
+        set<ListNode*> pointerSet;
+        ListNode* curr = head;
+        while(curr!= nullptr)
+        {
+            if(pointerSet.find(curr)!= pointerSet.end())
+                return curr;
+            else
+                pointerSet.insert(curr);
+            curr = curr->next;
+        }
+        return NULL;
+    }
+};
