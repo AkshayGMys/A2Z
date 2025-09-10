@@ -1,0 +1,62 @@
+//This just is not optimal , do down to view the optimal solution.
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
+    {
+        set<ListNode*> pSet;
+        while(headA != nullptr)
+        {
+            pSet.insert(headA);
+            headA=headA->next;
+        }
+        while(headB!=nullptr)
+        {
+            if(pSet.find(headB)!= pSet.end())
+                return headB;
+            headB = headB->next;
+        }
+        return nullptr;
+    }
+};
+
+OPTIMAL
+//To find the intersection point of two singly linked lists without extra space, we use two pointers that traverse both lists. By switching the heads when a pointer reaches the end, we equalize the path lengths traveled by both pointers.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
+    {
+       ListNode* currA = headA;
+       ListNode* currB = headB;
+       
+       while(currA != currB)
+       {
+            currA = currA->next;
+            currB = currB->next;
+            if(currA == currB)
+                return currA;
+            if(currA == nullptr) currA = headA;
+            if(currB == nullptr) currB = headB;
+       }
+       return currA;
+    }
+};
+
