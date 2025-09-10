@@ -8,7 +8,7 @@ class Solution {
     {
         int dummy = 1;
         dummy = dummy << k;
-        if(n & dummy == 1)
+        if(n & dummy >= 1)
             return true;
         else
             return false;
