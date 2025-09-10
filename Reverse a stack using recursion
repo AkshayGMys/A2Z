@@ -1,0 +1,43 @@
+Recursion need to be used , i had forgot how the code is implemented
+O(1) auziliary space solution was not able to come up .
+Initial approach was by using another stack .DO IT AGAIN AS I WATHED YOUTUBE TO SOLVE THIS.
+SOLVE THIS BY USING O(1) auziliary space which i have not done here , use recusrsion to place the top element on the bottom using recursion only.
+
+
+class Solution {
+  public:
+    void reverse(stack<int> &St) 
+    {
+        recurse(St);
+    }
+    void recurse(stack<int> &st)
+    {
+        
+        if(!st.empty())
+        {
+            int num = st.top();
+            stack<int> tempS;
+            st.pop();
+            recurse(st);
+            while(!st.empty())
+            {
+                int temp = st.top();
+                st.pop();
+                tempS.push(temp);
+            }
+            st.push(num);
+            while(!tempS.empty())
+            {
+                int temp = tempS.top();
+                tempS.pop();
+                st.push(temp);
+            }
+        }
+        
+    }
+};
+
+
+
+
+SOLVE IT 
