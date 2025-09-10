@@ -1,0 +1,39 @@
+// EDGE CASE HERE IS (-2,147,483,648 to 2,147,483,647).
+We cannot directly convert -2147483648 to positive as it will overflow.
+Time complexity is log(n) here where n is the power ,I though of a solution that is O(N) which takes a lot of time , this is far better.
+
+//Optimal solution 
+class Solution {
+public:
+    double myPow(double x, int n) 
+    {
+        if(n == 0)
+            return 1;
+        if(x == 0 || x == 1)
+            return x;
+
+        int nn = n;
+        if(nn == INT_MIN)
+            return 1 / (myPow(x,INT_MAX)*x);
+        if(n<0) nn = nn * (-1);
+        double res = 1;
+        
+        while(nn!=0)
+        {
+            if(nn%2 == 0)
+            {
+                x=x*x;
+                nn = nn/2;
+            }
+            else
+            {
+                nn = nn-1;
+                res = x*res;
+            }
+        }
+        if(n>0)
+            return res;
+        else
+            return 1/res;
+    }
+};
