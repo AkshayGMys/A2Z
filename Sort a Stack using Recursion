@@ -1,0 +1,35 @@
+Did it after watching video,
+
+/*The structure of the class is
+class SortedStack{
+public:
+    stack<int> s;
+    void sort();
+};
+*/
+
+/* The below method sorts the stack s
+you are required to complete the below method */
+void SortedStack ::sort() 
+{
+    if(s.empty() == false)
+    {
+        int temp = s.top();
+        s.pop();
+        sort();
+        stack<int> tempS;
+        while(!s.empty() && s.top()>temp)
+        {
+            int tempEle = s.top();
+            s.pop();
+            tempS.push(tempEle);
+        }
+        s.push(temp);
+        while(!tempS.empty())
+        {
+            int tempEle = tempS.top();
+            tempS.pop();
+            s.push(tempEle);
+        }
+    }
+}
