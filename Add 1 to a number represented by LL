@@ -1,0 +1,58 @@
+//DID IT ON OWN
+
+
+/*
+
+struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+
+*/
+
+class Solution {
+  public:
+  int carry = 0;
+    Node* addOne(Node* head) 
+    {
+        Node* revHead = reverse(head);
+        Node* curr = revHead;
+        while(curr != nullptr && curr->data== 9 && curr->next != nullptr)
+        {
+            curr->data = 0;
+            curr = curr->next;
+        }
+        if( curr->data == 9)
+        {
+            curr->data = 0;
+            Node* temp = new Node(1);
+            curr->next = temp;
+            return reverse(revHead);
+        }
+        else
+        {
+            curr->data = curr->data + 1;
+        }
+        return reverse(revHead);
+    }
+    Node* reverse(Node* head)
+    {
+        Node* curr = head;
+        Node* node = nullptr;
+        while(curr!=nullptr)
+        {
+            Node* temp = curr->next;
+            curr->next = node;
+            node = curr;
+            curr = temp;
+            temp = curr->next;
+        }
+         return node;
+    }
+};
