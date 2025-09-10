@@ -1,0 +1,16 @@
+Firstly left shift to bring a new variable to have only one 1 at kth place
+and gate used to figure out whether there is a 1 at that place , if result is 1 , the kth bit has 1
+
+
+class Solution {
+  public:
+    bool checkKthBit(int n, int k) 
+    {
+        int dummy = 1;
+        dummy = dummy << k;
+        if(n & dummy == 1)
+            return true;
+        else
+            return false;
+    }
+};
