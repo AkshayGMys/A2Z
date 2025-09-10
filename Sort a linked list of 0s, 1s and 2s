@@ -1,0 +1,22 @@
+
+/?WAY TOO EASY WITH EXTRA 3 spaces , but OPTIMAL IS BELOW
+DIMAG KHULA NAHI TO UNDERSTAND OPTIMAL SOLUTION
+class Solution {
+  public:
+    Node* segregate(Node* head) {
+        map<int, int> valToFreq;
+        Node* curr = head;
+        while(curr!=nullptr){
+            valToFreq[curr->data]++;
+            curr = curr->next;
+        }
+        curr =head;
+        for(int j = 0;j<3;j++){
+            for(int i=0;i<valToFreq[j];i++){
+                curr->data = j;
+                curr = curr->next;
+            }
+        }
+        return head;
+    }
+};
