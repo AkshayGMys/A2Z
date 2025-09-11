@@ -1,0 +1,18 @@
+//EASY RIGHT SHIFT OPERATION AND ODD OR EVE CHECKING
+
+
+class Solution {
+  public:
+    int setBits(int n) 
+    {
+        int temp = n;
+        int res = 0;
+       while(temp>0)
+       {
+            if(temp % 2 == 1)
+            res++;
+            temp = temp>>1;
+       }
+        return res;
+    }
+};
