@@ -1,0 +1,14 @@
+//EASY solution , i came up on my own
+
+
+class Solution {
+  public:
+    bool isEven(int n) 
+    {
+        int a = 1;
+        if(n & a >= 1)
+            return false;
+        else
+         return true;
+    }
+};
