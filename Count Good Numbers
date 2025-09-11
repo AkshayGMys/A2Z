@@ -1,5 +1,5 @@
 //The problem is not to check whether a give n string is Good number or not but to give out the total number of GOod Numbers that can be made of the given length.
-
+//THIS IS A PROBLEM SIMILAR TO THE IMPLEMENTATION OF POWER FUNCTINO BUT WITH MODULUS FUNCTION.
 class Solution {
 public:
      const long long MOD = 1000000007;
