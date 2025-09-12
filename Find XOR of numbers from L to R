@@ -1,0 +1,82 @@
+CORE CONCEPT IS 
+if n = even , then n ^ (n+1) = 0 ;
+
+Using this ,the wrote possibilities for 
+odd -> even 
+odd - > odd
+even -> odd
+evem - > even
+
+for l>r
+
+
+BLOODY LENGTHY GO DOWN FOR EASIER SOLUTION
+// User function Template for C++
+
+class Solution {
+  public:
+    int findXOR(int l, int r) 
+    {
+        int n = r-l;
+        if(l%2 == 0 && r%2 == 0)
+        {
+            if((n/2) % 2 == 0)
+                return r;
+            else return 1 ^ r;
+        }
+        if(l%2 == 1 && r %2 ==1 )
+        {
+            if((n/2) % 2 == 0)
+                return l;
+            return 1 ^ l;
+        }
+        if(l%2 == 0 && r%2 == 1)
+        {
+            if(((n+1)/2)%2 == 0)
+                return 0;
+            return 1;
+        }
+         if(l%2 == 1 && r%2 == 0)
+        {
+            if(((n-1)/2)%2 == 0)
+                return l ^ r;
+            return 1 ^ l ^ r;
+        }
+    }
+};
+
+
+
+CONCEPT IS 
+Pattern is 
+
+            n     =    1        2       3     4
+xor from 1 to n  =     1   ,   n+1    , 0   , n
+
+NOw that we get xor from 1 to l and 1 to r 
+
+We XOR (1 to l-1) ^ (1 to r) so the elements to the left of l are vanished and we get out result;
+
+// Back-end complete function Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    // Function to find the XOR value for a given number.
+    int findXOR(int n) {
+        int rem = n % 4;
+
+        // Using different cases to calculate XOR based on remainder.
+        if (rem == 0) return n;
+        if (rem == 1) return 1;
+        if (rem == 2) return n + 1;
+        if (rem == 3) return 0;
+    }
+
+    // Function to find the XOR value between two numbers.
+    int findXOR(int l, int r) { 
+        return findXOR(l - 1) ^ findXOR(r); 
+    }
+};
