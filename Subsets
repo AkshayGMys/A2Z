@@ -1,0 +1,33 @@
+//WROTE THE CODE MYSELF , BUT TIME TOOK IS MORE
+//Recursive solution
+//Just could not use the array by reference first time ,then i understood why we pop_back() and use the same array .
+
+class Solution {
+public:
+    vector<vector<int>> res;
+    vector<vector<int>> subsets(vector<int>& nums) 
+    {
+        if(nums.size() == 0)
+            return res;
+
+        vector<int> arr;
+        addSubset(nums,0,arr);
+        return res;
+    }
+    void addSubset(vector<int>& nums,int index ,vector<int>& arr)
+    {
+        int size = nums.size();
+        if(index == size)
+        {
+            res.push_back(arr);
+        }
+        else
+        {
+            arr.push_back(nums[index]);
+            addSubset(nums,index+1,arr);
+            arr.pop_back();   ///VERY IMPORTANT STEP AS WE ARE USING THE SAME ARRAY BY REFERENCE
+            addSubset(nums,index+1,arr);
+        }
+    }
+};
+};
