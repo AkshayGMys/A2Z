@@ -1,0 +1,36 @@
+DONT DIVIDE THE NEGATIVE , CONVERT EVERYTHING TO POSITIVE AND THEN RETURN NEGATIVE BASED ON THE BELOW THINGY
+//The quotient is negative only if one of divisor or the dividend is negative.
+
+class Solution {
+public:
+    int divide(int dividend, int divisor) 
+    {
+        if(dividend == 0)
+            return 0;
+         if(dividend == divisor)
+            return 1;
+        //Setting up the isNegative flag
+        bool isNegative = false;
+        if(dividend < 0 && divisor >0) isNegative = true;
+        if(divisor < 0 && dividend >0) isNegative = true;
+
+         //Making sure m and n are positive 
+        int m = abs(dividend);
+        int n = abs(divisor);
+        int quotient = 0;
+        //WHile the m>=n ,i.e denominator greater than the numerator
+        while(m >= n)
+        { 
+            int counter = 0;
+            //Find max counter such that m is just greater 2^counter * n is
+            while(m >= (n*pow(2,counter+1)) )
+                counter++;
+
+            m -= (n * pow(2,counter));
+            quotient += pow(2,counter);
+        }
+        if (isNegative == true)
+            return (-1)* quotient;
+        return quotient;
+    }
+};
