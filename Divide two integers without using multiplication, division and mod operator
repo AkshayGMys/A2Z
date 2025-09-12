@@ -14,10 +14,13 @@ public:
         if(dividend < 0 && divisor >0) isNegative = true;
         if(divisor < 0 && dividend >0) isNegative = true;
 
-         //Making sure m and n are positive 
-        int m = abs(dividend);
-        int n = abs(divisor);
-        int quotient = 0;
+         //Making sure m and n are positive
+        long long m = dividend;
+        m = abs(m);
+        long long n = divisor;
+        n = abs(n);
+        
+        long long quotient = 0;
         //WHile the m>=n ,i.e denominator greater than the numerator
         while(m >= n)
         { 
@@ -29,8 +32,10 @@ public:
             m -= (n * pow(2,counter));
             quotient += pow(2,counter);
         }
-        if (isNegative == true)
-            return (-1)* quotient;
-        return quotient;
+        if(isNegative == true) quotient = (-1)* quotient;
+        if(quotient > INT_MAX)  quotient = INT_MAX;
+        if(quotient < INT_MIN)  quotient = INT_MIN;
+
+       return quotient;
     }
 };
