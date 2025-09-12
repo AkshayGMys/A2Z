@@ -1,0 +1,118 @@
+//HAD A REALLY HARD TIME CODING IT 
+//COPIED FROM YOUTUBE ,TRY AGAIN 
+??THINK OF A TREE WHEN YOU THINK OF RECURSION
+
+
+The below code works character by character but the time limit exceeds here , so find a different way 
+// User function Template for C++
+
+class Solution {
+  public:
+    vector<string> generateBinaryStrings(int num) 
+    {
+        vector<string> res;
+        string s0 = "0";
+        res = print(num-1 , s0 ,res);
+        string s1 = "1";
+        res = print(num-1, s1 ,res);
+        return res;
+    }
+    vector<string> print(int len , string s,vector<string>& res)
+    {
+        if(len > 0)
+        {
+            if(s.back() == '0')
+            {
+                string str0 = s + '0';
+                string str1 = s + '1';
+                print( len-1,str0,res);
+                print( len-1,str1,res);
+            }
+            else
+            {
+                string str0 = s + '0';
+                print( len-1,str0,res);
+            }
+        }
+        else
+            res.push_back(s);
+        return res;
+    }
+};
+
+
+
+
+REDUCED A BIT OF UNNECESSARY STRING CREATION AND PASSING VECTORS AROUND
+// User function Template for C++
+
+class Solution {
+  public:
+  vector<string> res;
+    vector<string> generateBinaryStrings(int num) 
+    {
+        
+        string s = "0";
+        res = print(num-1 , s);
+        s[0] = '1';
+        res = print(num-1, s);
+        return res;
+    }
+    vector<string> print(int len , string s)
+    {
+        if(len > 0)
+        {
+            if(s.back() == '0')
+            {
+                print( len-1,s+'0');
+                print( len-1,s+'1');
+            }
+            else
+            {
+                print( len-1,s+'0');
+            }
+        }
+        else
+            res.push_back(s);
+        return res;
+    }
+};
+
+STILL TLE; 
+THE RETURNING OF VECTOR WAS THE REASON ,RETURNING VECTOR AT EVERY RECURSIVE THINGY IS RESOURCE INTENSIVE , SO KEEP GLOBL VARIABLE AND UPDATE IT IN RECURSION FOR BETTER EXECUTION.
+
+// User function Template for C++
+
+class Solution {
+  public:
+  vector<string> res;
+    vector<string> generateBinaryStrings(int num) 
+    {
+        
+        string s = "0";
+        print(num-1 , s);
+        s[0] = '1';
+        print(num-1, s);
+        return res;
+    }
+    void print(int len , string s)
+    {
+        if(len > 0)
+        {
+            if(s.back() == '0')
+            {
+                print( len-1,s+'0');
+                print( len-1,s+'1');
+            }
+            else
+            {
+                print( len-1,s+'0');
+            }
+        }
+        else
+            res.push_back(s);
+    }
+};
+
+
+This is the final Answer
