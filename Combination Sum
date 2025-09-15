@@ -1,0 +1,48 @@
+//Took no help , coded in a single go , it was pretty easy hehe
+
+//SUGGETIONS FOR CLEAN CODE
+1)
+const vector<string> letter = {
+    "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+};
+This is also cleaner than using vectors of int to hold ASCII values.
+
+
+
+
+
+class Solution {
+public:
+    vector<string> result ; 
+    string temp ="";
+    vector<vector<int>> letter = {{} , {} , {'a','b','c'}, {'d','e','f'}, {'g','h','i'} , {'j','k','l'} , {'m','n','o'} , {'p','q','r','s'} , {'t','u','v'},{'w','x','y','z'}};
+
+    vector<string> letterCombinations(string digits) 
+    {
+        if(digits.size() == 0)
+            return result;
+        generate(digits , 0 );
+        return result;
+    }
+    void generate(string& digits , int index)
+    {
+        if(index == digits.size())
+        {
+            result.push_back(temp);
+            return;
+        }
+            
+        int m = digits[index] - '0';
+        for(int i =0 ;i < letter[m].size();i++)
+        {
+            temp.push_back(letter[m][i]);
+            generate(digits , index + 1);
+            temp.pop_back();
+        }
+    }
+};
+
+
+
+
+
