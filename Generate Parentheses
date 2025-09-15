@@ -1,0 +1,39 @@
+//I tried to use a stack it messed up , wasted an hour or so .
+//This was difficult for me to convert the recursion to code .
+//Using a stack and pushing / popping will not work here due to recursion , Some elements will be gone from the stack '()' so removing them from the stack will be difficult
+
+//CONCEPT is of NUMBER OF OPEN BRACKETS AND NUMBER OF CLOSED BRACKETS 
+
+class Solution {
+public:
+    vector<string> result ;
+    string str = "(";
+    vector<string> generateParenthesis(int n) {
+        int openC = 1;
+        int closedC = 0;
+        generate(n,openC,closedC);
+        return result;
+    }
+    void generate(int& n , int openC, int closedC)
+    {
+        if(openC == closedC && closedC == n)
+        {
+            result.push_back(str);
+        }
+        else
+        {
+            if(openC > closedC)
+            {
+                str.push_back(')');
+                generate(n,openC, closedC+1);
+                str.pop_back();
+            }
+            if(openC < n)
+            {
+                str.push_back('(');
+                generate(n,openC+1,closedC);
+                str.pop_back();
+            }
+        }
+    }
+};
