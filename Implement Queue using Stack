@@ -1,0 +1,53 @@
+//RETURN CONDITION FOR EMPTY IS (FRONT ++ _! || FRONT > REAR)
+//FRONT MOVES FORWARD WHEN AN ELEMENT IS REMOVED AND REAR IS REMOVED WHEN AN ELEMENET IS ADDED .
+
+
+
+class MyQueue {
+public:
+    int arr[1000];
+    int front = -1;
+    int rear = -1;
+    int size = 1000;
+    MyQueue() {
+        
+    }
+    
+    void push(int x) {
+        arr[++rear] = x;
+        if(rear == 0)
+            front = 0;
+    }
+    
+    int pop() {
+        if(front>=0)
+        {
+            int a = arr[front++];
+            return a;
+        }
+        return -1;
+    }
+    
+    int peek() {
+         if(front>=0)
+        {
+            return arr[front];
+        }
+        return -1;
+    }
+    
+    bool empty() {
+        if(rear == -1)
+            return true;
+        return false;
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue* obj = new MyQueue();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->peek();
+ * bool param_4 = obj->empty();
+ */
