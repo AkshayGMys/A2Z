@@ -1,0 +1,25 @@
+//This code takes 2^n time complexity , please choose DP +  Memorization for this approach 
+
+class Solution {
+  public:
+    bool checkSubsequenceSum(int n, vector<int>& arr, int k) 
+    {
+        int s = 0;
+        return check(arr , k , 0 , s);
+    }
+    bool check(vector<int> &arr , int sum , int index , int s)
+    {
+        if(s == sum )
+            return true;
+        if(index < arr.size())
+        {
+            s = s+arr[index];
+            if(check(arr , sum , index + 1 , s))
+                return true;
+            s = s - arr[index];
+            if(check(arr,sum, index + 1 , s))
+                return true;
+        }
+        return false;
+    }
+};
