@@ -1,0 +1,20 @@
+class MyStack {
+  private:
+    StackNode *top = nullptr; //MUST AND SHOULD DECALRE IT AS NULLPTR
+  public:
+    void push(int x) {
+        StackNode* temp = new StackNode(x);
+        temp->next = top;
+        top = temp;
+    }
+
+    int pop() {
+        if(top == nullptr)
+            return -1;
+        int a = top->data;
+        top = top->next;
+        return a;
+    }
+
+    MyStack() { top = NULL; }
+};
