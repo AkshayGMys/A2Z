@@ -1,0 +1,31 @@
+//THis is an approach where we use an array of size n+1 and mark 1 to only those which are prime ;
+the time complexity for seieve of eratosthenses is nlog(logn);
+I watched the video , so peas
+//Do it another time , we mark the multiples of prime numbers as 0 basically .
+
+class Solution {
+public:
+    int countPrimes(int n) 
+    {
+        if( n == 0 || n==1 || n==2)
+            return 0;
+    
+        int count = 0;
+        vector<int> isPrime(n+1 , 1);
+        for(int i = 2;i<=sqrt(n);i++)
+        {
+            if(isPrime[i] == 1)
+            {
+                for(int j = i*i;j<=n ;j=j+i)
+                    isPrime[j] = 0;
+            }
+        }
+        for(int i = 2;i<n;i++)
+        {
+            if(isPrime[i] == 1)
+                count++;
+        }
+       return count;
+        
+    }
+};
