@@ -1,0 +1,25 @@
+CONCEPT : Run loop form 2 to root(n);
+check if the numbers is divisible by i, if divisibile ,put a while loop and divide as much as possible ;
+
+alternate method is to check whehter a number is divisible and checking isPrime for all the numbers divisible.
+
+
+
+class Solution {
+  public:
+    vector<int> primeFac(int n) 
+    {
+        vector<int> factors;
+        int actual = n;
+        for(int i = 2 ;i*i<= actual;i++)
+        {
+            if(n%i == 0)
+                factors.push_back(i);
+            while(n%i == 0)
+                n = n/i;
+        }
+        if(n!=1)
+            factors.push_back(n);
+        return factors;
+    }
+};
