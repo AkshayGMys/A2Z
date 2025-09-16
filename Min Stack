@@ -2,4 +2,99 @@
 
 //Other approach is making a stack of pair where the first is the element that is being pushed and second will the smallest element .
 //This gives space complexity of O(2*n)
-NOT YET DONE < WILL DO LATER 
+
+This has the concept of Mathematical Encoding 
+valToBeInserted = 2 * val - minEle
+while popping , actualVal = 2 * minEle - valueOnTop
+
+
+This is really confusing , so use the stack of pair to easily code and get a good time complexity
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-----------------------------------------------------------------------------------------------------------------------
+class MinStack {
+    vector<long long> st;   // use long long to avoid overflow
+    int topp;
+    long long minEle;       // renamed from "min" to avoid confusion
+
+public:
+    MinStack() {
+        topp = -1;
+    }
+
+    void push(int val) {
+        if (topp == -1) {
+            st.push_back(val);
+            minEle = val;
+        } else {
+            if (val < minEle) {
+                long long encoded = 2LL * val - minEle;
+                st.push_back(encoded);
+                minEle = val;
+            } else {
+                st.push_back(val);
+            }
+        }
+        topp++;
+    }
+
+    void pop() {
+        if (topp != -1) {
+            long long topVal = st[topp];
+            if (topVal < minEle) {
+                // recover previous min
+                minEle = 2LL * minEle - topVal;
+            }
+            st.pop_back(); // actually erase
+            topp--;
+        }
+    }
+
+    int top() {
+        if (topp == -1) return -1;
+        long long topVal = st[topp];
+        if (topVal >= minEle) return (int)topVal;
+        else return (int)minEle; // encoded → real top is minEle
+    }
+
+    int getMin() {
+        return (int)minEle;
+    }
+};
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+//THIS IS THE CODE WITH PAIR FOR MINIMUM TIME COMPLEXITY
+class MinStack {
+public:
+    stack<pair<int,int>> st;
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+        if(st.empty()){
+            st.push({val,val});
+        }
+        else{
+            st.push({val,min(val,st.top().second)});
+        }
+    }
+    
+    void pop() {
+        st.pop();
+    }
+    
+    int top() {
+       return st.top().first;
+    }
+    
+    int getMin() {
+        return st.top().second;
+    }
+};
+
+
