@@ -37,3 +37,35 @@ public:
             return 1/res;
     }
 };
+
+
+
+
+class Solution {
+public:
+    double myPow(double base, int power) 
+    {
+        if(power == INT_MIN && base == 1)
+            return 1;
+        if(power == INT_MIN)
+            power = power+1;
+        int n = abs(power);
+        double x = base;
+        double res = 1;
+        while(n>0)
+        {
+            if(n%2 == 1)
+            {
+                res = res * x;
+                n--;
+            }    
+            x= x*x;
+            n = n/2;
+        }
+        if(power == INT_MIN+1)
+            res = res * base;
+        if(power < 0)
+            return 1/res;   
+        return res;
+    }
+};
