@@ -1,0 +1,5 @@
+//One thing i can think of is maintaining an another array with the elements in this stack in the ascending order , THis doesnt work with popping
+
+//Other approach is making a stack of pair where the first is the element that is being pushed and second will the smallest element .
+//This gives space complexity of O(2*n)
+NOT YET DONE < WILL DO LATER 
