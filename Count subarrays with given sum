@@ -1,4 +1,4 @@
-Concept :
+WRONG Concept : Why? Because the same prefix can come multiple times if there is 0 in the array , the number of times we get a particular prefix is not stored directly.Set does not have the frequency required to solve this problem 
 Get the prefix sums ;
 the difference of prefix sums should be out target
 Or sometimes the prefix sum directly is out target
@@ -31,3 +31,42 @@ public:
         return res;
     }
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+CORRECT APPROACH
+
+
+This is a good question , We cannot use a unordered_set to just keep the prefix sums as there can be a possibility where k =0 and the nums = [1] , here prefix - k = 1 and 1 will be in the list , but we still cannot get a zero here;
+
+nums = [0,0,0], k=0
+Correct answer = 6 (all subarrays).
+Your code → res=3 ❌ because the set collapses {0} into one entry.
+
+So do not use a unordered_set to solve this , use an unordered map to also keep a count on how many times the same prefix sum is coming , 
+
+
+USE UNORDERED_MAP
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) 
+    {
+        unordered_map<int,int> prefixSum;
+        prefixSum[0] = 1;
+        int sum = 0;
+        int count = 0;
+        
+        for(auto &num : nums)
+        {
+            sum = sum + num;
+            if(prefixSum.find(sum - k)!= prefixSum.end())
+            {
+                count = count + prefixSum[sum-k];
+            }
+            prefixSum[sum]++;
+        }
+        return count;
+    }
+};
+
+Good concept i learnt here , only unordered_set cannot solve out problem everywhere
+
