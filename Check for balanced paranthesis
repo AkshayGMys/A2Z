@@ -1,0 +1,56 @@
+This is a solution i made on my own using stack , but we can also used ClosedBracket and OpenBracket count to solve the same problem.
+
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        for(auto &it : s)
+        {
+            if(it == '(' || it=='{' || it=='[')
+                st.push(it);
+            else if(!st.empty() && it == ')' && st.top() == '(')
+                st.pop();
+            else if(!st.empty() &&  it == '}' && st.top() == '{')   
+                st.pop();
+            else if(!st.empty() &&  it == ']' && st.top() == '[')
+                st.pop(); 
+            else
+                return false;
+        }
+        if(st.empty())
+            return true;
+        return false;
+    }
+};
+
+
+
+Modern compilers are very good at optimizing, but branch chains (else if) are usually slower than a single consolidated condition.
+
+This version is more branch-predictor friendly:
+
+One pop + one condition → less branching.
+
+
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> stack;
+        for (char c : s){
+            if (c == '(' || c == '[' || c == '{'){
+                stack.push(c);
+            }
+            else{
+                if (stack.empty()) return false;
+
+                char top = stack.top();
+                stack.pop();
+
+                if ((c == ')' && top != '(' ) ||
+                    (c == '}' && top != '{' ) ||
+                    (c == ']' && top != '[' )) return false;
+            } 
+        }
+        return stack.empty();
+    }
+};
