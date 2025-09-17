@@ -1,0 +1,20 @@
+//Direct and simple answer , do not think too much 
+class Solution {
+  public:
+
+    vector<int> count_NGE(vector<int> &arr, vector<int> &indices) 
+    {
+        int n = arr.size();
+        vector<int> res;
+        for(int i=0; i<indices.size(); i++){
+            int ind = indices[i];
+            int cnt = 0;
+            for(int j=ind+1; j<n; j++)
+                if(arr[j] > arr[ind]) 
+                    cnt++;
+            res.push_back(cnt);
+        }
+        return res;
+        
+    }
+};
