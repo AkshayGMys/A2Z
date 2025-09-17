@@ -1,0 +1,51 @@
+//MUST AND SHOULD SOLVE AGAIN < THIS IS A DIFFICULT CONCEPT FOR ME 
+THIS USES MONOTONIC STACK 4 TIMES
+
+
+class Solution {
+public:
+    long long subArrayRanges(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> NSL(n), NSR(n), NGL(n), NGR(n);
+        stack<int> st;
+
+        // Next Smaller Right (NSR)
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && nums[st.top()] > nums[i]) st.pop();
+            NSR[i] = st.empty() ? n : st.top();
+            st.push(i);
+        }
+        while (!st.empty()) st.pop();
+
+        // Next Smaller Left (NSL)
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && nums[st.top()] >= nums[i]) st.pop();
+            NSL[i] = st.empty() ? -1 : st.top();
+            st.push(i);
+        }
+        while (!st.empty()) st.pop();
+
+        // Next Greater Right (NGR)
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && nums[st.top()] < nums[i]) st.pop();
+            NGR[i] = st.empty() ? n : st.top();
+            st.push(i);
+        }
+        while (!st.empty()) st.pop();
+
+        // Next Greater Left (NGL)
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && nums[st.top()] <= nums[i]) st.pop();
+            NGL[i] = st.empty() ? -1 : st.top();
+            st.push(i);
+        }
+
+        long long sum = 0;
+        for (int i = 0; i < n; i++) {
+            long long minContrib = (long long)(i - NSL[i]) * (NSR[i] - i) * nums[i];
+            long long maxContrib = (long long)(i - NGL[i]) * (NGR[i] - i) * nums[i];
+            sum += (maxContrib - minContrib);
+        }
+        return sum;
+    }
+};
