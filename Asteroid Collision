@@ -1,0 +1,52 @@
+//Easy problem from stack 
+
+
+PROBLEM IS 
+Issue with asteroids[i]*st.top() <= -1 // i was checking like this , which was wrong 
+
+You’re using this product trick to check “opposite signs”, but:
+
+Example: st.top() = -3, asteroids[i] = 2
+→ product = -6 (≤ -1)
+But these asteroids will never collide because one is moving left and the other right, in different directions (away from each other).
+
+👉 The correct collision check is only:
+
+st.top() > 0 && asteroids[i] < 0
+
+
+Meaning: top asteroid moves right, current asteroid moves left → they’re facing each other.
+
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) 
+    {
+        stack<int> st;
+        for(int i=0;i<asteroids.size();i++)
+        {
+            bool destroyed = false;
+            while(!st.empty() && st.top() > 0 && asteroids[i] < 0 && abs(asteroids[i])>abs(st.top()))
+            {
+                st.pop();
+            }
+            if(!st.empty() && st.top() > 0 && asteroids[i] < 0 && abs(asteroids[i]) == abs(st.top()))
+            {
+                st.pop();
+                destroyed = true;
+            }
+            if(!st.empty() && st.top() > 0 && asteroids[i] < 0 && abs(asteroids[i]) < abs(st.top()))
+                destroyed = true;
+
+            if(!destroyed)
+                st.push(asteroids[i]);
+        }
+        vector<int> res;
+        while(!st.empty())
+        {   
+            res.push_back(st.top());
+            st.pop();
+        }
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
