@@ -35,7 +35,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////////////
 CORRECT APPROACH
 
-
+//WE CAN USE SLIDING WINDOW IF THERE WERE NO NEGATIVE NUMBERS(COULD NOT UNDERSTAND SO< FUCK IT)
 This is a good question , We cannot use a unordered_set to just keep the prefix sums as there can be a possibility where k =0 and the nums = [1] , here prefix - k = 1 and 1 will be in the list , but we still cannot get a zero here;
 
 nums = [0,0,0], k=0
