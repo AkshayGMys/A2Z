@@ -1,0 +1,142 @@
+Checking only  the next digit will not work 
+The below solution , i thought of only removing digits where num[i] >= num[i+1] Remove num[i].This wont work for 112 , iif you are not. If we encounter a small digits later in the string , we cannot go back and remove a bigger digits from before.
+Which gives me the idea that i have to remove the top K biggest numbers in the string //This is also wrong , 
+Input: num = "1432219", k = 3
+Output: "1219"
+Explanation: Remove the three digits 4, 3, and 2 to form the new number 1219 which is the smallest.
+THis will solve the confusion 
+//We have to make sure that the initial digits as as small as possible 
+
+
+class Solution {
+public:
+    string removeKdigits(string num, int k) 
+    {
+        string output ="";
+        int i = 0;
+        while(i<num.size()-1)
+        {
+            int flag = true ;
+            if(num[i]-'0' > num[i+1] -'0' && k >0)
+            {
+                i++;
+                k--;
+                flag = false;
+            }
+            if(flag)
+            {
+                output.push_back(num[i]);
+                i++;
+            }  
+            if(k<0)
+                break;
+        }
+        if(k<=0)
+            output.push_back(num.back());
+        while(output[0] == '0')
+            output.erase(0,1);
+        if(output == "")
+            output.push_back('0');
+        return output;
+    }
+};
+
+
+//Could not solve even with the monotonic stack 
+
+class Solution {
+public:
+    string removeKdigits(string num, int k) 
+    {
+        if(k == num.size())
+            return "0";
+        int len = num.size();
+        stack<int> st;
+        vector<int> NSR(len);
+        string result;
+        for(int i = len-1;i>=0;i--)
+        {
+            while(!st.empty() && num[i]<=st.top())
+                st.pop();
+            NSR[i] = st.empty() ? -1 : st.top();
+            st.push(num[i]);
+        }
+        int i = 0;
+        for(int i=0;i<len;i++)
+        {
+            if(k>0 && NSR[i]!=-1)
+            {
+                k--;
+                continue;
+            }
+            else
+            {
+                result.push_back(num[i]);
+            }
+        }
+    i = result.size()-1;
+    while(k>0 && i>=0)
+    {
+        result.erase(i,1);
+        i--;
+        k--;
+    }
+
+        while(result[0] == '0')
+            result.erase(0,1);
+        if(result == "")
+            result = "0";
+        return result;
+    }
+
+};
+
+
+
+*************************************************************************************************************8
+**************************************************************************************************************
+
+
+class Solution {
+public:
+    string removeKdigits(string num, int k) 
+    {
+        int len = num.size();
+        if(k == num.size())
+            return "0";
+        stack<char> st;
+        string result;
+        for(int i = 0;i<len ; i++)
+        {
+            while(!st.empty() && st.top() > num[i] && k>0)
+            {
+                st.pop();
+                k--;
+            }
+            st.push(num[i]);         
+        }
+        while(k>0 && !st.empty() )
+        {
+            st.pop();
+            k--;
+        }
+
+        while(!st.empty())
+        {
+            result.push_back(st.top());
+            st.pop();
+        }
+        reverse(result.begin(),result.end());
+        
+
+        while(result.size() >0 && result[0] == '0')
+            result.erase(0,1);
+        if(result == "")
+            result = "0";
+        return result;
+    }
+
+};
+
+
+Is the easy answer. Just use a stack . The goal is to get the smallest number in this beginning .pop the larger number .Reconstruct the number from the stack .
