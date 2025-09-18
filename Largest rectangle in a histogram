@@ -1,0 +1,41 @@
+Though out on my own ,used a monotonic stack 
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) 
+    {
+         
+        int len = heights.size();
+        stack<pair<int,int>> st;
+        vector<int> minRightIndex(len);
+        vector<int> minLeftIndex(len);
+        //Find smallElementRIghtIndex for each element
+        for(int i=len-1 ;i>=0 ;i--)
+        {
+            while(!st.empty() && heights[i]<=st.top().first)
+                st.pop();
+            minRightIndex[i] = st.empty() ? len : st.top().second;
+            st.push({heights[i] , i});
+        }
+
+        //Empty the stack
+        while(!st.empty())
+            st.pop();
+
+        //Calculate the smallElementLeftIndex for all elements
+        for(int i=0;i<len ;i++)
+        {
+            while(!st.empty() && heights[i]<=st.top().first)
+                st.pop();
+            minLeftIndex[i] = st.empty() ? -1 : st.top().second;
+            st.push({heights[i] , i});
+        }
+
+        int largestArea = INT_MIN;
+        for(int i=0;i<len;i++)
+        {
+            largestArea = max(largestArea , (minRightIndex[i] - minLeftIndex[i] - 1)*heights[i] );
+        }
+        return largestArea;
+    }
+};
