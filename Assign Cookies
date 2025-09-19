@@ -1,0 +1,25 @@
+//Pretty easy solution
+//Take the biggest cookie and try to give it to the kid with highest greed , if not possilble go lower .
+//SOrting is reequired here , that is the problem
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) 
+    {
+        sort(g.begin() , g.end());
+        sort(s.begin() , s.end());
+        int i = g.size()-1;
+        int j = s.size()-1;
+        int count = 0;
+        while(i>=0 && j>=0)
+        {
+            if(s[j]>=g[i])
+            {
+                j--;
+                count++;
+            }
+            i--;
+        }
+        return count;
+        
+    }
+};
