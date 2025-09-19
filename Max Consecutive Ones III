@@ -1,0 +1,86 @@
+This is the code i wronte initially 
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) 
+    {
+        int i = 0; 
+        int j = 0;
+        int count = 0;
+        int maxCount = 0;
+        int len = nums.size();
+        while(j<len)
+        {
+            if(nums[j] == 1)
+            {
+                j++;
+                count++;
+                maxCount = max(count,maxCount);
+            }
+                
+            else
+            {
+                if(k>0)
+                {
+                    j++;
+                    count++;
+                    maxCount = max(count,maxCount);
+                    k--;
+                }
+                else
+                {
+                    while(i<j && nums[i]!=0)
+                    {
+                        i++;
+                        count--;
+                    }
+                    i++;
+                    count--;
+                    j++;
+                    count++;
+                    maxCount = max(count,maxCount);
+                }
+            }
+        }
+        return maxCount;
+    }
+};
+
+
+
+//I myself optimised it to 
+//The problem was the length of the solution is not j-i+1 as we increase the j to point to the next element , correct count in j-1;
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) 
+    {
+        int i = 0; 
+        int j = 0;
+        int maxCount = 0;
+        int len = nums.size();
+        while(j<len)
+        {
+            if(nums[j] == 1)
+            {
+                j++;
+            }
+            else
+            {
+                if(k>0)
+                { 
+                    k--;
+                }
+                else
+                {
+                    while(i<j && nums[i]!=0)
+                    {
+                        i++;
+                    }
+                    i++;
+                }
+                j++;
+            }
+            maxCount = max(j-i,maxCount);
+        }
+        return maxCount;
+    }
+};
