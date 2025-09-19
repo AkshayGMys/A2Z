@@ -1,3 +1,5 @@
+//This is the easy solution i got 
+
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) 
@@ -26,5 +28,34 @@ public:
             }
         }
         return maxCount;
+    }
+};
+
+
+
+
+
+
+//This is more optimal as it uses vector instead of set .In set, it might take a long time if the string is aaaaaaaaaaaa.
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int result = 0;
+
+        int n = s.length();
+        vector<int> charIndex(128,-1);
+        int left = 0;
+
+        for(int right = 0; right < n; right++)
+        {
+            if(charIndex[s[right]] >= left)
+            {
+                left = charIndex[s[right]] + 1;
+            }
+            charIndex[s[right]] = right;
+            result = max(result, right-left + 1);
+        }
+        return result;
     }
 };
