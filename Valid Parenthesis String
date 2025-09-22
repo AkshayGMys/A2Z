@@ -1,0 +1,63 @@
+THIS BELOW APPROACH DOES NOT WORK FOR ((** 0r *((*
+class Solution {
+public:
+    bool checkValidString(string s) 
+    {
+        int cOpen = 0;
+        int cStar = 0;
+        for(auto &it : s)
+        {
+            if(it == '(')
+                cOpen++;
+            else if(it == '*')
+                cStar++;
+            else
+            {
+                if(cOpen > 0)
+                    cOpen--;
+                else if(cStar > 0)
+                    cStar--;
+                else
+                    return false;
+            }
+        }  
+        return (cOpen == 0 ) ? true : false; 
+    }
+};
+
+//We can use recursion by considering the * as ( , ) and nothing .Each node created three branches.TC will be 3 ^ n.
+//With DP it will be n*n
+//Just using a counter does not solve the problem here . We have to use a stack .
+//min-max open counter method is the standard greedy solution for this 
+
+
+//Low keeps a track by considering the recent * as ) and High keeps a track while considering * as ( .
+class Solution {
+public:
+    bool checkValidString(string s) 
+    {
+        int low = 0;
+        int high = 0;
+        for(auto &it : s)
+        {
+            if(it == '(')
+            {
+                low++;
+                high++;
+            }
+            if(it == ')')
+            {
+                low--;
+                high--;
+            }
+            if(it == '*')
+            {
+                low--; //Treat * as ')'
+                high++; // Treat * as '('
+            }
+            if(low < 0) low = 0;
+            if(high<0) return false;
+        }
+        return (low == 0 || high == 0) ?true : false;
+    }
+};
