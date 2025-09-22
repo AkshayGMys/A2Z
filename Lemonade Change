@@ -1,0 +1,43 @@
+//Very simple code , need not use umap to be honest 
+//Can just manage with two counters for 10 and 5 dollor bills
+
+
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) 
+    {
+        unordered_map<int ,int> umap = {{10,0} , {5,0}};
+        int len = bills.size();
+        for(int i = 0;i<len;i++)
+        {
+            if(bills[i] == 5)
+                umap[5]++;
+            else if(bills[i] == 10)
+            {
+                umap[10]++;
+                if(umap[5] > 0)
+                    umap[5]--;
+                else
+                    return false;
+            }
+            else
+            {
+                if(umap[10]> 0 && umap[5]>0)
+                {
+                    umap[10]--;
+                    umap[5]--;
+                }
+                else if(umap[5]>=3)
+                {
+                    umap[5] = umap[5] - 3;
+                }
+                else
+                    return false;
+                
+            }    
+
+        }
+        return true;
+
+    }
+};
