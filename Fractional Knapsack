@@ -1,0 +1,32 @@
+class Solution {
+  public:
+    double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) 
+    {
+        double result = 0;
+        vector<pair<double,int>> frac;
+        for(int i = 0 ;i<val.size() ; i++)
+        {
+            frac.push_back({(double)val[i] / wt[i] , i});
+        }
+        sort(frac.begin(), frac.end(),[](const pair<double,int> &a, const pair<double,int> &b) {
+         return a.first > b.first;
+        });
+        int i = 0;
+        while(i<wt.size() && capacity > 0)
+        {
+            if(capacity >= wt[frac[i].second])
+            {
+                result += val[frac[i].second];
+                capacity-= wt[frac[i].second];
+            }
+            else
+            {
+                break;
+            }
+            i++;
+        }
+        if(i<wt.size())
+            result += ((double)capacity / wt[frac[i].second]) * val[frac[i].second];
+        return result;
+    }
+};
