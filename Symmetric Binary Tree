@@ -1,0 +1,17 @@
+Easyyyy logic , thought it out myself
+
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) 
+    {
+        return check(root->left , root->right);   
+    }
+    bool check(TreeNode* lN , TreeNode* rN)
+    {
+        if(!lN  && !rN) return true;
+        if((!lN && rN) || (!rN && lN)) return false;
+        if(lN->val == rN->val)
+            return(check(lN->right,rN->left) && check(lN->left,rN->right));
+        return false; 
+    }
+};
