@@ -1,0 +1,31 @@
+Consider this also
+                     1
+                  2      3
+                 4  8
+                5    9
+              6
+             7
+This is a tree where diameter does not pass through the root whereas the diameter passes in the left subtree.
+So make sure to update the diameter when passing through all the tree roots.
+
+SOLUTION
+````````
+class Solution {
+public:
+    int diameter = -1;  // To get the greatest diameter possible at every node 
+    int diameterOfBinaryTree(TreeNode* root) 
+    {
+         height(root);
+         return diameter;
+    }
+    int height(TreeNode* node)
+    {
+        if(!node) return 0;
+        
+        int left = height(node->left);
+        int right = height(node->right);
+
+        diameter = max(diameter , left+right);  //Checking for diameter at every node
+        return 1 + max(left,right); // Return the current height to the previous node 
+    }
+};
