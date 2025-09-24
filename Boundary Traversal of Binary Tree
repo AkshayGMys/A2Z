@@ -1,0 +1,64 @@
+Add left boundary only first 
+Then add Leaf nodes only 
+Then add right boundary only
+
+
+class Solution {
+public:
+    vector<int> res;
+
+    vector<int> boundaryTraversal(Node* root) {
+        if (!root) return {};
+        res.push_back(root->data);
+
+        // Left boundary (excluding leaf)
+        addLeftBoundary(root->left);
+
+        // Leaf nodes
+        addLeaves(root->left);
+        addLeaves(root->right);
+
+        // Right boundary (excluding leaf) in reverse
+        addRightBoundary(root->right);
+
+        return res;
+    }
+
+private:
+    void addLeftBoundary(Node* node) {
+        while (node) {
+            if (node->left || node->right) // not a leaf
+                res.push_back(node->data);
+            if (node->left)
+                node = node->left;
+            else
+                node = node->right;
+        }
+    }
+
+    void addRightBoundary(Node* node) {
+        stack<int> st;
+        while (node) {
+            if (node->left || node->right) // not a leaf
+                st.push(node->data);
+            if (node->right)
+                node = node->right;
+            else
+                node = node->left;
+        }
+        while (!st.empty()) {
+            res.push_back(st.top());
+            st.pop();
+        }
+    }
+
+    void addLeaves(Node* node) {
+        if (!node) return;
+        if (!node->left && !node->right) {
+            res.push_back(node->data);
+            return;
+        }
+        addLeaves(node->left);
+        addLeaves(node->right);
+    }
+};
