@@ -1,0 +1,26 @@
+Coded it on my own , it is just level order traversal 
+
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) 
+    {
+        if(!root) return {};
+        queue<TreeNode*> q;
+        vector<int> res;
+        q.push(root);
+        while(!q.empty())
+        {
+            int len = q.size();
+            TreeNode* curr = q.front();
+            for(int i =0 ;i<len;i++)
+            {
+                curr = q.front();
+                if(curr->left) q.push(curr->left);
+                if(curr->right) q.push(curr->right);
+                q.pop();
+            }
+            res.push_back(curr->val);
+        }
+        return res;
+    }
+};
