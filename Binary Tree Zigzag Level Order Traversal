@@ -1,0 +1,30 @@
+//First do level order traversal , you just need to reverse insert the vectors at odd places .Easy peasy.
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        if(!root) return {};
+        queue<TreeNode*> q;
+        vector<vector<int>> res;
+        q.push(root);
+        int counter=0;
+        while(!q.empty())
+        {
+            vector<int> temp;
+            int size = q.size();
+            for(int i = 0;i< size; i++)
+            {
+                TreeNode* curr = q.front();q.pop();
+                if(curr->left) q.push(curr->left);
+                if(curr->right) q.push(curr->right);
+                if(counter%2 == 0)
+                    temp.push_back(curr->val);
+                else
+                    temp.insert(temp.begin() , curr->val);
+            }
+            res.push_back(temp);
+            counter++;
+        }
+        return res;
+        
+    }
+};
