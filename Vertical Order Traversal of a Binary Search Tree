@@ -1,0 +1,71 @@
+New kinda concept to collect elements from the vertical lines.
+//Learnt about Lambda Functions 
+//Learnt about vector<tuple<int,int,int>> data structure and how to access the elements inside it .TRICKY AF.
+
+Basic syntax:
+
+[capture](parameters) -> return_type {
+    // body
+}
+
+
+[capture] → how the lambda can access variables outside its scope
+
+(parameters) → like a normal function
+
+-> return_type → optional if compiler can infer the return type
+
+{ body } → function code
+
+
+//Also learnt about decomposing a structure
+for (auto [key, value] : mp) {
+    cout << key << " -> " << value << endl;
+}
+AND
+for (auto& [key, value] : mp) {
+    cout << key << " -> " << value << endl;
+}
+passes this as reference so that the internal values can be modified
+AND
+for (const auto& [key, value] : mp) {
+    cout << key << " -> " << value << endl;
+}
+This avoids copying the elements for the larger datastructures
+
+
+
+
+//Learnt about emplace_back funtion to construct an object and puhs_back without having to create a copy of each element for longer data structures
+nodeInfo.emplace_back(node->val , col ,row);
+
+
+
+class Solution {
+public:
+    vector<tuple<int,int,int>> nodeInfo; //Column, Row,Value
+    vector<vector<int>> verticalTraversal(TreeNode* root) 
+    {
+        vector<vector<int>> res;
+        collect(root,0,0);
+        sort(nodeInfo.begin(),nodeInfo.end());
+        int currCol = INT_MIN;
+        for(auto &[col , row , val] : nodeInfo)
+        {
+            if(currCol != col)
+            {
+                res.push_back({});
+                currCol = col;
+            }
+            res.back().push_back(val);
+        }
+        return res;
+    }
+    void collect(TreeNode* node , int col , int row)
+    {
+        if(!node) return;
+        nodeInfo.emplace_back( col ,row ,node->val );
+        collect(node->left , col-1 , row+1);
+        collect(node->right , col +1 , row+1);
+    }
+};
