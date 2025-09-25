@@ -1,0 +1,40 @@
+
+//Do it again , did it with a lot of help from chatgpt
+
+LOGIC : You have to give back the number just larger than the current number using the digits given in Nums .this is what they mean by the lexographical sorting 
+
+APPROACH :
+Pivot element is the element to be replaced by a lil bigger number so that the next permutation is obtained .We have to make sure that the pivot element is neither smaller nor must there exist any element to the right of the elemennt smaller than the previous pivot and bigger than the current pivot choosen.
+1)Find the pivot index i such that nums[i+1]>nums[i] from the end ;The elements from the right are in ascending order towards left in any given permutation untill the pivot element.
+2)Replace nums[i] with the element just greater than nums[i]/NOT THE GREATEST ELEMENT ,BUT JUST GREATER THAN.
+3)Sort the element in from arr[i+1] to arr.end() to make sure that we get the next permutation .As the elements are in descending order to the right of pivot , we can just also revrse the elements to the right of the pivot element .
+
+
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) 
+    {
+        int i = nums.size()-1;
+        while(i>0 && nums[i] <= nums[i-1])
+            i--;
+        if(i == 0)
+        {
+            reverse(nums.begin(),nums.end());
+            return;  
+        }    
+        else
+        {
+            int j = i-1;
+            int index;
+            for(index = nums.size()-1;index>j;index--)
+            {
+                if(nums[index] > nums[j])
+                    break;
+            }
+            int temp = nums[j];
+            nums[j] = nums[index];
+            nums[index] = temp;
+            reverse(nums.begin()+i , nums.end());
+        }
+    }
+};
