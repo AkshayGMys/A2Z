@@ -1,0 +1,110 @@
+OPTIMAL SOLUTION 
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root) return nullptr;
+
+        if(root == p) return root; //As the root contains p , either this node is the LCA or one of its PARENT is.
+        if(root == q) return root;//As the root contains q , either this node is the LCA or one of its PARENT is.
+
+
+    //If none of this happens , we will explore down.
+
+    TreeNode* left = lowestCommonAncestor(root->left , p ,q);
+    TreeNode* right = lowestCommonAncestor(root->right , p , q);
+
+     //This means that both p and q are found in different subtrees 
+    if(left != nullptr && right != nullptr) return root; 
+    //only left subtree has the element required i.e p or q.Search for the other element.
+    if(left != nullptr && right == nullptr) return left; 
+    //Only right subtree has either of the element , look for the other one next;
+    if(right!= nullptr && left == nullptr) return right; 
+    //Neither p not q found in both the sides of the tree
+    return nullptr; 
+    }
+};
+
+
+It is hard for a reason , i wrote some shitty code
+
+
+//My approach was similar to this one but it was unreadable lol 
+
+class Solution {
+public:
+    TreeNode* result = nullptr;
+
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) 
+    {
+        find(root, p, q);
+        return result;
+    }
+
+    bool find(TreeNode* root, TreeNode* p, TreeNode* q)
+    {
+        if (!root) return false;
+
+        // Check whether p or q are in left/right subtrees
+        bool leftHasP = search(root->left, p);
+        bool leftHasQ = search(root->left, q);
+        bool rightHasP = search(root->right, p);
+        bool rightHasQ = search(root->right, q);
+
+        // CASE 1: p and q are on different sides
+        if ((leftHasP && rightHasQ) || (leftHasQ && rightHasP))
+            result = root;
+
+        // CASE 2: root itself is one of the nodes
+        // and the other lies in either subtree
+        if ((root == p && (leftHasQ || rightHasQ)) ||
+            (root == q && (leftHasP || rightHasP)))
+            result = root;
+
+        // Continue searching deeper to ensure lowest
+        find(root->left, p, q);
+        find(root->right, p, q);
+
+        return (result != nullptr);
+    }
+
+    bool search(TreeNode* node, TreeNode* ele)
+    {
+        if (!node) return false;
+        if (node == ele) return true;
+        return search(node->left, ele) || search(node->right, ele);
+    }
+};
+
+///This is my actual code hehehee
+
+class Solution {
+public:
+    TreeNode* result;
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) 
+    {
+        find(root , p ,q);
+        return result;
+    }
+    bool find(TreeNode* root, TreeNode* p , TreeNode* q)
+    {
+        if(!root) return false;
+        if( ((search(root->left,p) || search(root,p)) && search(root->right,q)) || ((search(root->left,p) || search(root,p)) && search(root->left,q))  )
+        {
+            result = root;
+            return true;
+        } 
+        return false;  
+    }
+    bool search (TreeNode* node , TreeNode* ele)
+    {
+        if(!node) return false;
+        if(node == ele)
+            return true;
+        return search(node->left , ele) || search(node->right , ele);
+    }
+};
+
+
+
+
+
