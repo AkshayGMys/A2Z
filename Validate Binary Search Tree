@@ -1,0 +1,20 @@
+
+
+//I did not understand this at all initially .Later on I understood with chatGPT .DO it again
+
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) 
+    {
+        if(!root) return true;
+         return helper(root , LONG_MIN , LONG_MAX);
+    }
+    bool helper(TreeNode* root , long long lowerBound , long long upperBound)
+    {
+        if(!root) return true;
+        else if ( root->val <= lowerBound || root->val >= upperBound )   
+            return false;
+        else
+            return helper(root->left , lowerBound , root->val) && helper(root->right , root->val , upperBound); //This line was confusing 
+    }
+};
