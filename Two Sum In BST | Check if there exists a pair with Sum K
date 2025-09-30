@@ -1,0 +1,19 @@
+
+
+class Solution {
+public:
+    unordered_set<int> uset;
+    bool findTarget(TreeNode* root, int k) 
+    {
+        return traverse(root , k); 
+    }
+    bool traverse(TreeNode* node , int k)
+    {
+        if(!node) return false;
+        else if(uset.find(k - node->val) != nullptr )
+            return true;
+        else
+            uset.insert(node->val);
+        return traverse(node->left,k) || traverse(node->right,k);
+    }
+};
