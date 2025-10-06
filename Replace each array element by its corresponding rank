@@ -1,0 +1,50 @@
+This is the most optimal SOlution 
+
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> replaceWithRank(vector<int> &arr, int N) 
+    {
+        // Step 1: Copy array and sort + remove duplicates
+        vector<int> sorted(arr);
+        sort(sorted.begin(), sorted.end());
+        sorted.erase(unique(sorted.begin(), sorted.end()), sorted.end());
+
+        // Step 2: Replace each element with its rank using lower_bound
+        for(int i = 0; i < N; i++) {
+            // Find rank directly without map
+            arr[i] = lower_bound(sorted.begin(), sorted.end(), arr[i]) - sorted.begin() + 1;
+        }
+
+        return arr;
+    }
+};
+
+
+The below solution is the one i gave directly 
+// User function Template for C++
+
+class Solution {
+  public:
+
+    vector<int> replaceWithRank(vector<int> &arr, int N) 
+    {
+        unordered_map<int,int> umap;
+        vector<int> sorted(arr);
+        sort(sorted.begin(),sorted.end());
+        int rank = 1;
+        for(int i = 0;i<arr.size();i++)
+        {
+            if(umap.find(sorted[i]) == umap.end())
+                umap[sorted[i]] = rank++;
+        }
+        for(int i =0 ;i<arr.size();i++)
+        {
+            sorted[i] = umap[arr[i]];
+        }
+        return sorted;
+    }
+};
