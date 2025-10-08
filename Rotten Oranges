@@ -1,0 +1,61 @@
+NOT MEDIUM , THIS IS HARD ONLY
+Learnings :
+1) vector<vector<int>> visited(m,vector<int>(n,0)); Initializing a 2 d array with all 0's
+2) queue<pair<pair<int,int>,int>> q; Tf is this datastructure
+3)  int delRow[] = {-1,0,1,0};    int delCol[] = {0,1,0,-1}; . I would not have come up with this 
+4)This is the actual data structure used  
+           int row = q.front().first.first;
+            int column = q.front().first.second;
+            int time = q.front().second;
+//If the graph is disconnected , we cannot rot all the oranges , return -1 if it is disconnected 
+// 
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) 
+    {
+        int m = grid.size();
+        int n = grid[0].size();
+        queue<pair<pair<int,int>,int>> q;
+        vector<vector<int>> visited(m,vector<int>(n,0));
+
+        int freshCount = 0;
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j] == 2)
+                {
+                    visited[i][j] = 2;
+                    q.push({{i,j},0});
+                }
+                else if(grid[i][j] == 1)
+                    freshCount++;
+            }
+        }
+
+        int finalTime = 0;
+        int delRow[] = {-1,0,1,0};
+        int delCol[] = {0,1,0,-1};
+        while(!q.empty())
+        {
+            int row = q.front().first.first;
+            int column = q.front().first.second;
+            int time = q.front().second;
+            finalTime = max(time ,finalTime);
+            q.pop();
+            for(int i=0;i<4;i++)
+            {
+                int nrow = row + delRow[i];
+                int ncol = column + delCol[i];
+                if(ncol>=0 && ncol<n && nrow >=0 && nrow <m && visited[nrow][ncol]!=2 && grid[nrow][ncol] ==1)
+                {
+                    q.push({{nrow,ncol},time+1});
+                    visited[nrow][ncol] = 2;
+                    freshCount--;
+                }  
+            }
+        }
+        if(freshCount != 0) return -1;
+        return finalTime;
+    }
+};
