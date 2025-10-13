@@ -1,0 +1,45 @@
+//HEre i had written 
+ if(visited[graph[i][j]] == -1)
+                if(!dfs(graph[i][j] ,color , graph ,visited )) return false;   
+            else if(visited[graph[i][j]] == myColor)
+                return false;
+which the compiler was taking as 
+C++ associates the else with the nearest unmatched if, so your code is effectively this:
+
+if (visited[graph[i][j]] == -1)
+    if (!dfs(graph[i][j], color, graph, visited))
+        return false;
+    else if (visited[graph[i][j]] == myColor)
+        return false;
+Do not do this mistake .The logic is the 0 and 1 color one with the dfs
+__________________________________________________________________________________________________________________________________________
+ACTUAL SOLUTION 
+class Solution {
+public:
+ bool dfs(int i,int myColor,vector<vector<int>>& graph,vector<int>& visited)
+    {
+        int color = myColor==1 ? 0:1;
+        visited[i] = myColor;
+        for(int j=0;j<graph[i].size();j++)
+        {
+            if(visited[graph[i][j]] == -1)
+            {
+                if(!dfs(graph[i][j] ,color , graph ,visited )) return false;
+            }   
+            else if(visited[graph[i][j]] == myColor)
+                return false;
+        }
+        return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        int m = graph.size();
+        vector<int> visited(m,-1);
+        for(int i=0;i<m;i++)
+        {
+            if(visited[i] == -1)
+                if(!dfs(i , 1 , graph , visited))return false;
+        }
+        return true;    
+    }
+   
+};
