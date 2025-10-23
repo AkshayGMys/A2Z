@@ -1,0 +1,52 @@
+//Usage of the indegreee and BST together , There is no concept of visisted here , it uses the indegree==0 to kind of erase the need for the visited array .
+
+
+class Solution {
+public:
+    vector<int> topologicalSortUsingBFS(queue<int> &q, vector<int> &indegree,
+                                        unordered_map<int, vector<int>> &adjList, int numCourses) 
+    {
+        vector<int> result;
+        while (!q.empty()) {
+            int curr = q.front();
+            q.pop();
+            result.push_back(curr);
+            
+            for (auto next : adjList[curr]) {
+                indegree[next]--;
+                if (indegree[next] == 0) {
+                    q.push(next);
+                }
+            }
+        }
+
+        if (result.size() == numCourses)
+            return result;
+        else
+            return {};  // Cycle exists
+    }
+
+    vector<int> findOrder(int numCourses, vector<vector<int>> &prerequisites) 
+    {
+        unordered_map<int, vector<int>> adjList;
+        vector<int> indegree(numCourses, 0);
+        queue<int> q;
+
+        // Build graph
+        for (auto &it : prerequisites) {
+            int course = it[0];
+            int prereq = it[1];
+            adjList[prereq].push_back(course);
+            indegree[course]++;
+        }
+
+        // Push nodes with 0 indegree
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0)
+                q.push(i);
+        }
+
+        // Perform BFS
+        return topologicalSortUsingBFS(q, indegree, adjList, numCourses);
+    }
+};
