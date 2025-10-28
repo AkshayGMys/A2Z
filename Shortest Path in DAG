@@ -1,0 +1,56 @@
+I modified the above questions code .But i could not find a hash a pair to put it into a unordered_map 
+SO made a custom template
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
+        // Custom hash for pair<int,int> so it can be used in unordered_map
+        struct pair_hash {
+            size_t operator()(const pair<int,int>& p) const noexcept {
+                return hash<int>()(p.first) ^ (hash<int>()(p.second) << 1);
+            }
+        };
+
+        unordered_map<pair<int,int>, int, pair_hash> weight;
+        vector<vector<int>> adjacencyList(V);
+        vector<int> distance(V, INT_MAX);
+        queue<pair<int,int>> q;
+
+        // Build graph
+        for (auto &it : edges) {
+            adjacencyList[it[0]].push_back(it[1]);
+            weight[{it[0], it[1]}] = it[2];
+        }
+
+        // Initialize source
+        q.push({0, 0});
+        distance[0] = 0;
+
+        // SPFA-like relaxation
+        while (!q.empty()) {
+            auto [node, currDistance] = q.front();
+            q.pop();
+
+            for (auto it : adjacencyList[node]) {
+                auto edge = make_pair(node, it);
+                if (weight.find(edge) != weight.end()) {
+                    int wt = weight[edge];
+                    if (distance[it] > currDistance + wt) {
+                        distance[it] = currDistance + wt;
+                        q.push({it, distance[it]});
+                    }
+                }
+            }
+        }
+
+        // Replace unreachable nodes (INT_MAX → 0)
+        for (int i = 0; i < V; i++) {
+            if (distance[i] == INT_MAX)
+                distance[i] = -1;
+        }
+
+        return distance;
+    }
+};
