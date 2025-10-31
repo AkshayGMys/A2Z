@@ -1,0 +1,39 @@
+
+//Did it on my own , it was just BFS.
+The problem was that i did not know i could return the distance as soon as i reached the target , this works because 
+Queue Mechanism: BFS uses a queue (First-In, First-Out). When a cell is added to the queue, it's processed in the order it was added.Distance Property:All nodes at distance $k$ from the source are guaranteed to be visited and placed in the queue before any nodes at distance $k+1$.This ensures that the shortest paths of length $1$ are fully explored before paths of length $2$, and paths of length $2$ are explored before paths of length $3$, and so on.
+class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) 
+    {
+        if(grid[0][0] == 1) return -1;
+        int n = grid.size();
+        vector<vector<int>> visited(n ,vector<int>(n,0));
+        queue<pair<pair<int,int> , int >> q;
+        q.push({{0,0} ,1});
+        visited[0][0] =1;
+        int rowAdd[8] = {0 , 1 , 1, 1, 0 , -1 , -1 , -1 };
+        int colAdd[8] = {1, 1, 0 , -1 , -1 ,-1 ,0 , 1 };
+        while(!q.empty())
+        {
+            auto [xNy , distance] = q.front();
+            q.pop();
+            auto [row , col] = xNy ;
+            if(row == n-1 && col == n-1)
+            {
+                return distance;
+            }
+            for(int i =0 ;i<8;i++)
+            {
+                int newRow = row + rowAdd[i];
+                int newCol = col + colAdd[i];
+                if(newRow >= 0 && newRow < n && newCol >= 0 && newCol<n && grid[newRow][newCol] == 0 && visited[newRow][newCol] == 0)
+                {
+                    visited[newRow][newCol] = 1;
+                    q.push({{newRow,newCol} , distance+1});
+                }
+            }
+        }
+        return -1;
+    }
+};
