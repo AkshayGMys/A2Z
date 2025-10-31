@@ -1,0 +1,108 @@
+//This is a craxy problem 
+Excellent — this is a bit-manipulation (XOR) trick problem.
+Let’s break it down step-by-step so you understand why it works and how it finds the two sneaky numbers 👇
+
+🧩 Problem Setup (Conceptually)
+
+You're given an array nums that originally contained numbers from 0 to n-1 (so its length should have been n).
+But — two numbers are repeated, so the array now has n + 2 elements.
+
+You need to find those two “sneaky” numbers (duplicates).
+
+xorSum = (nums[0] ⊕ nums[1] ⊕ ... ⊕ nums[n+1]) ⊕ (0 ⊕ 1 ⊕ ... ⊕ (n-1))
+
+
+Now every number that appears once in both sequences cancels out (since x ^ x = 0).
+only the two sneaky numbers (that appear twice) remain in the XOR.
+
+So after this step:
+
+xorSum = sneaky1 ⊕ sneaky2
+
+⚙️ Step 2: Find the rightmost set bit
+int rightmostSetBit = xorSum & ~(xorSum - 1);
+This gives you a bitmask that isolates the lowest bit where the two sneaky numbers differ.That is WE DIVIDE THE NUMBERS INTO TWO GROUPS OR BUCKETS
+
+Example:
+If sneaky1 = 5 (0101) and sneaky2 = 6 (0110)
+then xorSum = 3 (0011)
+and rightmostSetBit = 1 (0001) → they differ at the last bit.
+BUCKET 1 - > will have all the numbers whos last bit is 1
+BUCKET 2 - > will have all the number whos last bit is 0
+
+
+We XOR within each group:
+
+for (int i = 0; i < totalSize; i++) {
+    if (nums[i] & rightmostSetBit)
+        firstSneakyNumber ^= nums[i];
+    else
+        secondSneakyNumber ^= nums[i];
+}
+
+for (int i = 0; i < actualSize; i++) {
+    if (i & rightmostSetBit)
+        firstSneakyNumber ^= i;
+    else
+        secondSneakyNumber ^= i;
+}
+
+
+Why?
+Because now each group will contain:all numbers that appear in both the original range and array → cancel out (since x⊕x=0)only one sneaky number left unpaired in each group
+→ firstSneakyNumber and secondSneakyNumber are the two sneaky numbers.
+
+
+1	XOR everything	gives XOR of two sneaky numbers
+2	Find rightmost set bit	distinguishes sneaky numbers
+3	Group & XOR again	isolates each sneaky number
+4	Return	both sneaky numbers found
+
+Would you like me to visually show how the bit groups cancel out with an example table (bit by bit)?
+
+
+class Solution {
+public:
+    vector<int> getSneakyNumbers(vector<int>& nums) {
+
+        int xorSum = 0;
+        int totalSize = nums.size();
+        int actualSize = nums.size() - 2;
+
+        // XOR all elements of the array
+        for(int i = 0; i < totalSize; i++) {
+            xorSum ^= nums[i];
+        }
+
+        // XOR all numbers from 0 to n-1 (excluding the two sneaky numbers)
+        for(int i = 0; i < actualSize; i++) {
+            xorSum ^= i;
+        }
+
+        // Find the rightmost set bit in xorSum
+        int rightmostSetBit = xorSum & ~(xorSum - 1);
+
+        int firstSneakyNumber = 0;
+        int secondSneakyNumber = 0;
+
+        // Separate the numbers into two groups based on the rightmost set bit
+        for(int i = 0; i < totalSize; i++) {
+            if(nums[i] & rightmostSetBit) {
+                firstSneakyNumber ^= nums[i];
+            } else {
+                secondSneakyNumber ^= nums[i];
+            }
+        }
+        
+        // XOR the range of numbers from 0 to n-1
+        for(int i = 0; i < actualSize; i++) {
+            if(i & rightmostSetBit) {
+                firstSneakyNumber ^= i;
+            } else {
+                secondSneakyNumber ^= i;
+            }
+        }
+
+        return {firstSneakyNumber, secondSneakyNumber};
+    }
+};
