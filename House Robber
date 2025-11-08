@@ -1,0 +1,24 @@
+Initially i could not understand the Pick / Not Pick approach . 
+Then i understood it . We wither Pick an element adding it the money[i+2] or we dont pick it and just copy the money[i+1].Whichever is better .
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n ==1 ) return nums[0];
+        if(n == 2) return max(nums[0] , nums[1]);
+
+        vector<int> money( n , 0);
+
+        money[n-1] = nums[n-1];
+        money[n-2] = max( nums[n-1] , nums[n-2]) ;
+        for(int i = n-3 ; i>=0 ;i--)
+        {
+            if(nums[i] + money[i+2] > money[i+1])
+                money[i] = nums[i] + money[i+2];
+            else
+                money[i] = money[i+1];
+        }
+        return money[0];
+    }
+};
