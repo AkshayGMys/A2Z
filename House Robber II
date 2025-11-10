@@ -1,0 +1,27 @@
+//This logic of applying House Robber 1 on 0 to n-2 and from 1 to n-1 did not just come to my mind . Later on i coded myself after knowing this logic from ankit
+
+class Solution {
+public:
+    int robb(int start , int end , vector<int>& nums)
+    {
+        int next2 = 0;
+        int next1 = nums[end];
+        for(int i = end-1 ; i>=start ; i--)
+        {
+            int temp = next2;
+            next2 = next1;
+            next1 = max(temp+nums[i] , next1);
+        }
+        return next1;
+    }
+    int rob(vector<int>& nums) 
+    {
+        int n = nums.size();
+         if(n ==1 )
+            return nums[0];
+        if(n == 2)
+            return max(nums[0] , nums[1]);
+        return max(robb(0 , n-2 , nums) , robb(1, n-1 , nums));
+       
+    }
+};
