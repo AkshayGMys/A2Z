@@ -1,0 +1,14 @@
+class Solution {
+  public:
+   
+    bool isSubsetSum(vector<int>& arr, int sum) {
+    bitset<10001> dp;   // enough size for max sum
+    dp[0] = 1;
+
+    for (int num : arr)
+        dp |= (dp << num);
+
+    return dp[sum];
+}
+
+};
