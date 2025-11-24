@@ -1,0 +1,20 @@
+Pure recursion
+class Solution {
+public:
+    int result = 0 ;
+    void recurse(int index , int currSum , int target , vector<int>& nums )
+    {
+        if(index == nums.size()) 
+        {
+            if(currSum == target)
+            result++;
+            return ;
+        }
+        recurse( index+1 , currSum+nums[index] , target , nums);
+        recurse( index+1 , currSum-nums[index] , target , nums);
+    }
+    int findTargetSumWays(vector<int>& nums, int target) {
+        recurse( 0 , 0 , target , nums);
+        return result;
+    }
+};
