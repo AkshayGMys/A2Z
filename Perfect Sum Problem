@@ -1,0 +1,19 @@
+With a lot of CHat gpt help , i understood the recursive solution .Bottom up approach toh give up hi kardiya 
+class Solution {
+  public:
+  
+    int recurse(int index , int target , vector<int>& arr ,vector<vector<int>>& dp  )
+    {
+        if(index == arr.size() || target < 0 )
+            return target == 0;
+        if(dp[index][target] != -1)return dp[index][target];
+        int pick = recurse( index+1 , target-arr[index] , arr ,dp);
+        int notPick = recurse(index+1 , target , arr,dp);
+        return dp[index][target] = pick+notPick;
+    }
+    int perfectSum(vector<int>& arr, int target) {
+        int n = arr.size();
+        vector<vector<int>> dp(n , vector<int>(target+1 , -1));
+        return recurse( 0 , target, arr ,dp);
+    }
+};
