@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int recurse( int index , int amount ,  vector<int>& coins ,vector<vector<int>>& dp )
+    {
+        //Base Case 
+        if(index >= coins.size()) return amount==0;
+        //DP checking
+        if(dp[index][amount]!= -1) return dp[index][amount];
+        //Pick or Not pick
+        int take = 0;
+        if(amount >= coins[index]) take = recurse(index , amount-coins[index] , coins ,dp);
+        int notTake = recurse(index +1 , amount , coins,dp);
+
+        return dp[index][amount]=take + notTake;
+    }
+    int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        vector<vector<int>> dp( n , vector<int>(amount+1,-1));
+        return recurse( 0 , amount , coins ,dp);
+    }
+};
