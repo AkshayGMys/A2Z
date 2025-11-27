@@ -1,0 +1,19 @@
+class Solution {
+public:
+     int f(int index , bool canBuy , vector<int>& prices ,vector<vector<int>>& dp ,int fee )
+    {
+        if(index >= prices.size()) return 0;
+        if(dp[index][canBuy] != -1e9) return dp[index][canBuy];
+        int buy = 0;
+        if(canBuy) buy =  f(index+1 , false , prices ,dp ,fee) -prices[index]-fee ;
+        int doNothing = f(index+1 , canBuy , prices , dp ,fee);
+        int sell = 0 ;
+        if(!canBuy) sell = f(index+1 , true , prices ,dp ,fee) + prices[index];
+        return dp[index][canBuy]=max(buy , max(doNothing , sell));
+    }
+    int maxProfit(vector<int>& prices, int fee) {
+        int n = prices.size();
+        vector<vector<int>> dp(n , vector<int>(2 , -1e9));
+        return f( 0 , true , prices , dp ,fee);
+    }
+};
