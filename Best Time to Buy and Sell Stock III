@@ -1,0 +1,22 @@
+class Solution {
+public:
+  int f(int index , bool canBuy , vector<int>& prices ,vector<vector<vector<int>>>& dp,int tradesRemaining )
+    {
+        if(index >= prices.size() || tradesRemaining <= 0) return 0;
+        if(dp[index][canBuy][tradesRemaining] != -1) return dp[index][canBuy][tradesRemaining];
+        int buy = 0;
+        if(canBuy) buy = f(index+1 , false , prices ,dp , tradesRemaining) -prices[index] ;
+        int doNothing = f(index+1 , canBuy , prices , dp ,tradesRemaining);
+        int sell = 0 ;
+        if(!canBuy) sell = f(index+1 , true , prices ,dp ,tradesRemaining-1) + prices[index];
+        return dp[index][canBuy][tradesRemaining]=max(buy , max(doNothing , sell));
+    }
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<vector<int>>> dp( n , vector<vector<int>>(2 , vector<int>(3 , -1)));
+        return f( 0 , true , prices , dp ,2);
+    }
+};
+
+
+There is a better greedy solution which i could not come up with .
