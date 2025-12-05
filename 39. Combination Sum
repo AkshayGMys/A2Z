@@ -1,0 +1,29 @@
+recurse(index+1 , currSum , candidates, target , currVector);
+        currVector.push_back(candidates[index]);
+        recurse(index , currSum+candidates[index] , candidates , target , currVector);
+        currVector.pop_back();
+This part was not clearly coming , but somehow got it .
+------------------------------------------------------------------------------------------------------------------------------------------------------
+class Solution {
+public:
+    vector<vector<int>> result;
+    void recurse(int index , int currSum , vector<int>& candidates , int target ,vector<int>& currVector)
+    {
+        if(currSum == target)
+        {
+            result.push_back(currVector);
+            return;
+        }
+            
+        if(currSum >= target || index >= candidates.size())return;
+        recurse(index+1 , currSum , candidates, target , currVector);
+        currVector.push_back(candidates[index]);
+        recurse(index , currSum+candidates[index] , candidates , target , currVector);
+        currVector.pop_back();
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int> currVector;
+        recurse( 0 , 0 , candidates , target ,currVector );
+        return result;
+    }
+};
