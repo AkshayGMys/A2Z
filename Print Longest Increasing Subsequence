@@ -1,0 +1,44 @@
+class Solution {
+  public:
+    vector<int> getLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> result;
+        vector<int> newNums(n+1,INT_MIN);
+        for(int i = 0 ;i<n;i++)
+        {
+            newNums[i+1] = nums[i];
+        }
+        n = newNums.size();
+        vector<vector<int>> dp(n+1 , vector<int>(n+1 , 0));
+        //Array size is 
+        for(int i = n-1 ; i > 0 ;i--) //i = 0 not allowed as the recursion starts at index 1
+        {
+            for(int j = 0;j < i ;j++)
+            {
+                int notPick = dp[i+1][j];
+                int pick = 0;
+                if (newNums[i] > newNums[j])
+                    pick = 1 + dp[i+1][i];
+                dp[i][j] = max(pick, notPick);
+            }
+        }
+        int last_val = 0 ;
+        for(int i = n-1 ;i>=1 ; i--)
+        {
+            
+            for(int j = 0 ;j<=i ; j++)
+            {
+                if(dp[i][j] > last_val)
+                {
+                    result.push_back(newNums[i]);
+                    last_val = dp[i][j];
+                    break;
+                }
+                    
+            }
+        }
+        reverse(result.begin() , result.end());
+        return result;
+        
+    }
+};
